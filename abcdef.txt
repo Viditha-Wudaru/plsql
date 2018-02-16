@@ -1,0 +1,21 @@
+CREATE OR REPLACE function func(v_sal in integer) return integer as
+sal integer;
+begin
+   sal := v_sal + 100;
+   return sal;
+end;
+/
+
+declare
+cursor c1 is select employee_id,department_id,func(salary) 
+                              from employees where department_id=102;
+begin
+loop
+  exit when c1%notfound
+  fetch c1 into v_emp, v_sal, v_dept
+  insert into output values(v_emp, v_sal, v_dept);
+end;
+/
+
+select * from output
+/
